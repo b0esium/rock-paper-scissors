@@ -1,10 +1,12 @@
 const options = ["rock", "paper", "scissors"];
 
 for (option of options) {
-  console.log(option);
   const optionBtn = document.getElementById(option);
   optionBtn.addEventListener("click", () => {
-    console.log(playRound(option));
+    const result = playRound(option);
+    // display result in UI
+    const resultDiv = document.getElementById("results");
+    resultDiv.innerText = result;
   });
 }
 
@@ -50,9 +52,9 @@ function game() {
   computerScore = 0;
 
   if (playerScore > computerScore) {
-    return "You win! " + playerScore + "-" + computerScore;
+    return "You win the game! " + playerScore + "-" + computerScore;
   } else if (playerScore < computerScore) {
-    return "You lose! " + playerScore + "-" + computerScore;
+    return "You lose the game! " + playerScore + "-" + computerScore;
   } else {
     return "It's a draw!";
   }
