@@ -1,21 +1,64 @@
 const options = ["rock", "paper", "scissors"];
+let playerScore = 0;
+let computerScore = 0;
+const maxScore = 1;
 
+// get DOM elements
+const container = document.getElementById("container");
+const resultDiv = document.getElementById("results");
+const scoreDiv = document.getElementById("score");
+const winnerDiv = document.getElementById("winner");
+
+// TODO: refactor click callback into a playGame()
 for (option of options) {
   const optionBtn = document.getElementById(option);
   optionBtn.addEventListener("click", () => {
+    // don't play if game is finished
+    if (playerScore == maxScore || computerScore == maxScore) {
+      return;
+    }
+
+    // otherwise, play
     const result = playRound(option);
+
     // display result in UI
-    const resultDiv = document.getElementById("results");
     resultDiv.innerText = result;
+
     // display score in UI
-    const scoreDiv = document.getElementById("score");
     scoreDiv.innerText =
       "Your score: " + playerScore + " - Computer score: " + computerScore;
+
+    // announce winner
+    if (playerScore == maxScore || computerScore == maxScore) {
+      // make a "New game" button appear
+      const newGameBtn = document.createElement("button");
+      newGameBtn.innerHTML = "New game";
+      newGameBtn.setAttribute("id", "newGameBtn");
+      newGameBtn.addEventListener("click", () => {
+        resetGame();
+      });
+      container.appendChild(newGameBtn);
+      // declare winner
+      if (playerScore == maxScore) {
+        winnerDiv.innerText = "You win the game!";
+      } else if (computerScore == maxScore) {
+        winnerDiv.innerText = "You lose the game!";
+      }
+    }
   });
 }
 
-let playerScore = 0;
-let computerScore = 0;
+function resetGame() {
+  // reset scores
+  playerScore = 0;
+  computerScore = 0;
+  // reset UI
+  resultDiv.innerText = "";
+  scoreDiv.innerText = "";
+  winnerDiv.innerText = "";
+  const newGameBtn = document.getElementById("newGameBtn");
+  container.removeChild(newGameBtn);
+}
 
 function getComputerChoice() {
   let random = Math.floor(Math.random() * options.length);
@@ -45,20 +88,6 @@ function playRound(playerSelection, computerSelection) {
   ) {
     computerScore++;
     return "You lose! " + computerSelection + " beats " + playerSelection;
-  } else {
-    return "It's a draw!";
-  }
-}
-
-function game() {
-  // reset scores
-  playerScore = 0;
-  computerScore = 0;
-
-  if (playerScore > computerScore) {
-    return "You win the game! " + playerScore + "-" + computerScore;
-  } else if (playerScore < computerScore) {
-    return "You lose the game! " + playerScore + "-" + computerScore;
   } else {
     return "It's a draw!";
   }
