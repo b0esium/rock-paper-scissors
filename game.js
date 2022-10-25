@@ -1,17 +1,29 @@
+const options = ["rock", "paper", "scissors"];
+
+for (option of options) {
+  console.log(option);
+  const optionBtn = document.getElementById(option);
+  optionBtn.addEventListener("click", () => {
+    console.log(playRound(option));
+  });
+}
+
 let playerScore = 0;
 let computerScore = 0;
 
 function getComputerChoice() {
-  const options = ["Rock", "Paper", "Scissors"];
   let random = Math.floor(Math.random() * options.length);
   return options[random];
 }
 
+// normalize to first-letter capital
+function capitalize(word) {
+  return word[0].toUpperCase() + word.slice(1).toLowerCase();
+}
+
 function playRound(playerSelection, computerSelection) {
-  computerSelection = getComputerChoice();
-  // normalize playerSelection to first-letter capital
-  playerSelection =
-    playerSelection[0].toUpperCase() + playerSelection.slice(1).toLowerCase();
+  computerSelection = capitalize(getComputerChoice());
+  playerSelection = capitalize(playerSelection);
 
   if (
     (playerSelection == "Rock" && computerSelection == "Scissors") ||
@@ -37,9 +49,6 @@ function game() {
   playerScore = 0;
   computerScore = 0;
 
-  for (let i = 0; i < 5; i++) {
-    playRound(prompt("Your move?"));
-  }
   if (playerScore > computerScore) {
     return "You win! " + playerScore + "-" + computerScore;
   } else if (playerScore < computerScore) {
