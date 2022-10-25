@@ -7,6 +7,10 @@ for (option of options) {
     // display result in UI
     const resultDiv = document.getElementById("results");
     resultDiv.innerText = result;
+    // display score in UI
+    const scoreDiv = document.getElementById("score");
+    scoreDiv.innerText =
+      "Your score: " + playerScore + " - Computer score: " + computerScore;
   });
 }
 
